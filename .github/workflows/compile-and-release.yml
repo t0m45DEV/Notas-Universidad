@@ -1,0 +1,39 @@
+name: Compile Typst and Release PDFs
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'Notas/**/*.typ'
+
+jobs:
+  compile-and-release:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Typst
+        uses: typst-community/setup-typst@v3
+        with:
+          typst-version: 'latest'
+
+      - name: Run compile script
+        run: |
+          chmod +x compile.sh
+          ./compile.sh
+
+      - name: Update latest release
+        uses: andelf/nightly-release@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: latest
+          name: 'Latest Notes'
+          prerelease: false
+          body: 'Auto-compiled PDFs from latest commit'
+          files: 'PDF/*.pdf'
