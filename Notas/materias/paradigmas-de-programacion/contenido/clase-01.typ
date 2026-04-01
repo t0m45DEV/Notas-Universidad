@@ -106,7 +106,7 @@ También tenemos funciones para combinar listas, como la concatenación entre li
 Ademas tenemos algunas mas complejas (que van a tomar mas relevancia mas adelante):
 
 #codigo(
-  nombre: "Funciones _map_ y _filter_ en Haskell",
+  nombre: "Funciones map y filter en Haskell",
   codigo:```haskell
 map :: (a -> b) -> [a] -> [b]
 map f []     = []
