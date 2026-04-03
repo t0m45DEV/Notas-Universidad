@@ -171,3 +171,52 @@ recr f v (x:xs) = f x xs (recr f v xs)
 
 A simple vista no parece mucha la diferencia, pero la idea es simple: ahora $f$ tiene mas información que en el caso de _foldr_. Esta recursión abarca mas casos que la recursión estructural, pero todas las funciones definidas con _recr_ pueden ser definidas de manera estructural. Es decir, las funciones que cumplan el patron estructural, también pueden ser definidas de manera primitiva, pero no viceversa.
 
+Por ejemplo, la siguiente función no se puede definir utilizando el esquema de recursión estructural, ya que el caso recursivo hace referencia tanto a _x_ como a _xs_, cosa que en el esquema estructural no se permite. Pero si en el esquema primitivo.
+
+#codigo(
+  nombre: "Definición recursiva de trim en Haskell",
+  codigo:```haskell
+trim :: String -> String
+trim []     = []
+trim (x:xs) = if x == ' ' then trim xs else x:xs
+```
+)
+
+La definición usando _recr_ es posible, un ejemplo de como se veria es:
+
+#codigo(
+  nombre: "Definición de trim usando recr en Haskell",
+  codigo:```haskell
+trim :: String -> String
+trim = recr (\x xs rec -> if x == ' ' then rec else x:xs) []
+```
+)
+
+Como una nota al pie, tambien existe la versión "al revez" de _foldr_, que se le llama _foldl_. Hay diferencias sutiles entre el comportamiento de uno con el otro, pero son escencialmente lo mismo, mas alla de que forman la salida de la función en otro orden.
+
+#codigo(
+  nombre: "Definición de foldl en Haskell",
+  codigo:```haskell
+foldl :: (b -> a -> b) -> b -> [a] -> b
+foldl f v []     = v
+foldl f v (x:xs) = foldl f (f v x) xs
+```
+)
+
+A modo de ejemplo, aca esta la misma función definida dos veces, una con cada caso de la *recursión estructural*.
+
+#codigo(
+  nombre: "Comparación de foldr y foldl",
+  codigo:```haskell
+-- Con foldr
+reversa :: [a] -> [a]
+reversa = foldr (\x xs -> xs ++ [x]) []
+
+-- Con foldl
+reversa :: [a] -> [a]
+reversa = foldl (\xs x -> x:xs) []
+```
+)
+
+Ambas versiones generan el mismo resultado, pero se puede tener preferencia sobre alguna en perticular. Personalmente, _reversa_ sale muy bien con _foldl_, aunque a fines practicos no deja de ser lo mismo.
+
