@@ -144,7 +144,7 @@ $
 A modo de ejemplo veamos el mismo tipo de ejercicio pero con la definición del _map_:
 
 #ejemplo(
-  nombre: "Deducción de f para la función map",
+  nombre: "Deducción de g para la función map",
   texto:[
 $
 &quad italic("map") quad f quad (x:italic("xs")) quad = quad g quad x quad (italic("map") quad f quad italic("xs")) \
@@ -153,7 +153,7 @@ $
 &<=> quad "{ Reemplazamos" (italic("map") quad f quad italic("xs")) " por " italic("ys") " }" \
 &quad f quad x quad : quad italic("ys") quad = quad g quad x quad italic("ys") \
 &<=> quad "Funciones" \
-&quad g quad = quad lambda x quad italic("ys") quad -> quad f quad x quad : quad italic("xs")
+&quad g quad = quad lambda x quad italic("ys") quad -> quad f quad x quad : quad italic("ys")
 $
 ]
 )
